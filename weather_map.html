@@ -10,20 +10,115 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet'/>
 </head>
 <body>
-
+<div>
+    <header class="container">
+        <h1>WEATHER MAP</h1>
+    </header>
+    <nav class="container">
+        <div class="row align-items-center py2">
+            <div class="input-group col-sm">
+                <span class="input-group-text" id="basic-addon1">Lat</span>
+                <input type="text"
+                       class="form-control"
+                       inputmode="numeric"
+                       id="latitude"
+                       placeholder="latitude"
+                       aria-label="latitude"
+                       aria-describedby="basic-addon1"
+                       value="39.9390"
+                />
+            </div>
+            <div class="input-group col-sm">
+                <input
+                        type="text"
+                        class="form-control"
+                        inputmode="numeric"
+                        id="longitude"
+                        placeholder="longitude"
+                        aria-label="longitude"
+                        aria-describedby="basic-addon1"
+                        value="-75.2000"
+                />
+            </div>
+        </div>
+        <div class="row align-items-center py2">
+            <div class="col-auto me-auto">
+                <button id="btnGet" type="button" class="btn btn-primary mb-3">
+                    Get Weather
+                </button>
+                <button id="btnCurrent" type="button" class="btn btn-primary mb-3">
+                    Use Current Location
+                </button>
+            </div>
+        </div>
+        >
+    </nav>
+    <main class="container">
+        <h2>Weather</h2>
+        <div class="weather row gx-2">
+            <div class="col">
+                <div class="card">
+                    <h5 class="card-title p-2">Date</h5>
+                    <img
+                            src="http://openweathermap.org/img/wn/10d@4x.png"
+                            alt="Weather description"
+                    />
+                    <div class="card-body">
+                        <h3 class="card-title">Weather Label</h3>
+                        <p class="card-text">High Temp Low Temp</p>
+                        <p class="card-text">High Feels Like</p>
+                        <p class="card-text">Pressure</p>
+                        <p class="card-text">Humidity</p>
+                        <p class="card-text">UV Index</p>
+                        <p class="card-text">Precipitation</p>
+                        <p class="card-text">Dew Point</p>
+                        <p class="card-text">Wind speed and direction</p>
+                        <p class="card-text">Sunrise</p>
+                        <p class="card-text">Sunset</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <img
+                        src="http://openweathermap.org/img/wn/10d.png"
+                        alt="demo icon"
+                />
+                <span>10d.png</span>
+            </div>
+            <div class="col">
+                <img
+                        src="http://openweathermap.org/img/wn/10d@2x.png"
+                        alt="demo icom"
+                />
+            </div>
+            <div class="col">
+                <img
+                        src="http://openweathermap.org/img/wn/10d@4x.png"
+                        alt="demo icon"
+                />
+                <div class="col">
+                    <img
+                            src="http://openweathermap.org/img/wn/10d.png"
+                            alt="demo icon"
+                    />
+                    <span>10d.png</span>
+                </div>
+                <div class="col">
+                    <img
+                            src="http://openweathermap.org/img/wn/10d.png"
+                            alt="demo icon"
+                    />
+                    <span>10d.png</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 <div class="container row" id="weather">
-    <h1>Weather Map</h1
-    <div id="currentConditions">
-        <h2>Current Conditions</h2>
-        <div id="currTemp">Current Temp</div>
-        <div id="currWind">Current Wind</div>
-        <div id="currHumidity">Current Humidity</div>
-        <div id="currPressure">Current Pressure</div>
-        <div id="currVisibility">Current Visibility</div>
-        <div id="currClouds">Current Cloud Cover</div>
-        <div id="currSunrise">Today's Sunrise</div>
-        <div id="currSunset">Tonight's Sunset</div>
-    </div>>
     <div id="map"></div>
 </div>
 <script src="js/keys.js"></script>
@@ -35,27 +130,5 @@
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
 <script src="js/mapbox-geocoder-utils.js"></script>
 <script src="js/main-js.js"></script>
-<script>
-    $.get(weatherURL, {
-        APPID: WEATHERMAP_API,
-        q:     "Philadelphia, US",
-        units: "imperial"
-    }).done(function(data) {
-    });
-    $.get(fiveDayURL, {
-        APPID: WEATHERMAP_API,
-        q:     "Philadelphia, US",
-        units: "imperial"
-    }).done(function(data) {
-    console.log('5 day forecast', data);
-    });
-    mapboxgl.accessToken = MAPBOX_API;
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v9',
-        zoom: 15,
-        center: [-75.2008, 39.9390]
-    });
-</script>
 </body>
 </html>
