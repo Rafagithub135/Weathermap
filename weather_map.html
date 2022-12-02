@@ -10,7 +10,20 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet'/>
 </head>
 <body>
-<div class="container" id="weather">
+
+<div class="container row" id="weather">
+    <h1>Weather Map</h1
+    <div id="currentConditions">
+        <h2>Current Conditions</h2>
+        <div id="currTemp">Current Temp</div>
+        <div id="currWind">Current Wind</div>
+        <div id="currHumidity">Current Humidity</div>
+        <div id="currPressure">Current Pressure</div>
+        <div id="currVisibility">Current Visibility</div>
+        <div id="currClouds">Current Cloud Cover</div>
+        <div id="currSunrise">Today's Sunrise</div>
+        <div id="currSunset">Tonight's Sunset</div>
+    </div>>
     <div id="map"></div>
 </div>
 <script src="js/keys.js"></script>
@@ -21,14 +34,15 @@
         crossOrigin="anonymous"></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
 <script src="js/mapbox-geocoder-utils.js"></script>
+<script src="js/main-js.js"></script>
 <script>
-    $.get("http://api.openweathermap.org/data/2.5/weather", {
+    $.get(weatherURL, {
         APPID: WEATHERMAP_API,
         q:     "Philadelphia, US",
         units: "imperial"
     }).done(function(data) {
     });
-    $.get("http://api.openweathermap.org/data/2.5/forecast", {
+    $.get(fiveDayURL, {
         APPID: WEATHERMAP_API,
         q:     "Philadelphia, US",
         units: "imperial"
