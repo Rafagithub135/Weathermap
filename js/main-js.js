@@ -11,10 +11,11 @@ const app = {
         //use the values from latitude and longitude to fetch the weather
         let lat = document.getElementById('latitude').value;
         let lon = document.getElementById('longitude').value;
-        let key = '06cc7efd0e5386068ec3c390bcfd0183';
+        let key = fiveDayURL;
         let lang = 'en';
-        let units = 'metric';
-        let url = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}&lang=${lang}`;
+        let units = 'imperial';
+        let url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude={minutely,hourly,alerts}&appid=${key}&units${units}&lang${lang}';
+        // https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}&lang=${lang}`;
         //fetch the weather
         fetch(url)
             .then((resp) => {
@@ -37,9 +38,9 @@ const app = {
     ftw: (position) => {
         //got position
         document.getElementById('latitude').value =
-            position.coords.latitude.toFixed(2);
+            position.coords.latitude.toFixed(4);
         document.getElementById('longitude').value =
-            position.coords.longitude.toFixed(2);
+            position.coords.longitude.toFixed(4);
     },
     wtf: (err) => {
         //geolocation failed
@@ -50,6 +51,28 @@ const app = {
         let row = document.querySelector('.weather.row');
         //clear out the old weather and add the new
         // row.innerHTML = '';
+        let html = '<div class="col">\n' +
+            '                <div class="card">\n' +
+            '                    <h5 class="card-title p-2">Date</h5>\n' +
+            '                    <img\n' +
+            '                            src="http://openweathermap.org/img/wn/10d@4x.png"\n' +
+            '                            alt="Weather description"\n' +
+            '                    />\n' +
+            '                    <div class="card-body">\n' +
+            '                        <h3 class="card-title">Weather Label</h3>\n' +
+            '                        <p class="card-text">High Temp Low Temp</p>\n' +
+            '                        <p class="card-text">High Feels Like</p>\n' +
+            '                        <p class="card-text">Pressure</p>\n' +
+            '                        <p class="card-text">Humidity</p>\n' +
+            '                        <p class="card-text">UV Index</p>\n' +
+            '                        <p class="card-text">Precipitation</p>\n' +
+            '                        <p class="card-text">Dew Point</p>\n' +
+            '                        <p class="card-text">Wind speed and direction</p>\n' +
+            '                        <p class="card-text">Sunrise</p>\n' +
+            '                        <p class="card-text">Sunset</p>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>';
         row.innerHTML = resp.daily
             .map((day, idx) => {
                 if (idx <= 2) {
