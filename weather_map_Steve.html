@@ -9,7 +9,7 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet'/>
 </head>
-<body>
+<body class="bg-info">
 <div>
     <header class="container">
         <h1>WEATHER MAP</h1>
@@ -55,30 +55,7 @@
     </nav>
     <main class="container">
         <h2>Weather</h2>
-        <div class="weather row gx-2">
-            <div class="col">
-                <div class="card">
-                    <h5 class="card-title p-2">Date</h5>
-                    <img
-                            src="http://openweathermap.org/img/wn/10d@4x.png"
-                            alt="Weather description"
-                    />
-                    <div class="card-body">
-                        <h3 class="card-title">Weather Label</h3>
-                        <p class="card-text">High Temp Low Temp</p>
-                        <p class="card-text">High Feels Like</p>
-                        <p class="card-text">Pressure</p>
-                        <p class="card-text">Humidity</p>
-                        <p class="card-text">UV Index</p>
-                        <p class="card-text">Precipitation</p>
-                        <p class="card-text">Dew Point</p>
-                        <p class="card-text">Wind speed and direction</p>
-                        <p class="card-text">Sunrise</p>
-                        <p class="card-text">Sunset</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="weather row gx-2"></div>
     </main>
     <footer class="container">
         <div class="row align-items-center">
@@ -91,13 +68,13 @@
             </div>
             <div class="col">
                 <img
-                        src="http://openweathermap.org/img/wn/10d@2x.png"
+                        src="http://openweathermap.org/img/wn/10d.png"
                         alt="demo icom"
                 />
             </div>
             <div class="col">
                 <img
-                        src="http://openweathermap.org/img/wn/10d@4x.png"
+                        src="http://openweathermap.org/img/wn/10d.png"
                         alt="demo icon"
                 />
                 <div class="col">
@@ -118,7 +95,7 @@
         </div>
     </footer>
 </div>
-<div class="container row" id="weather">
+<div class="container row mx-0" id="weather">
     <div id="map"></div>
 </div>
 <script src="js/keys.js"></script>
