@@ -10,6 +10,11 @@ p {
     margin: 0;
 }
 
+.card {
+    height: 700px;
+    width: 18rem;
+}
+
 .container {
     margin: auto;
 }
