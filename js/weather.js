@@ -87,10 +87,9 @@ const map = new mapboxgl.Map({
 
 let el = document.createElement("div");
 el.className = "marker";
-let marker = new mapboxgl.Marker(el, {
-    anchor: "bottom",
+let marker = new mapboxgl.Marker({
+    draggable: true
 })
-    .setDraggable(true)
     .setLngLat([-75.2000, 39.9385])
     .addTo(map);
 
@@ -150,33 +149,26 @@ function getWeather() {
     });
 }
 
-function updateInformation() {
+async function updateInformation() {
     if ($("#location").val().trim() === "") {
     } else {
         let city = $("#location").val();
-        let coords = $("#location").val().trim().split(",").reverse();
+        let coords = await geocode(city, MAPBOX_API);
+        console.log(coords);
         coords[0] = parseFloat(coords[0]);
         coords[1] = parseFloat(coords[1]);
-        if (!isNaN(parseFloat(city))) {
-            let coords = $("#location").val().trim().split(",").reverse();
-            marker.setLngLat([coords[0], coords[1]])
+        $.get(weatherUrl, {
+            APPID: WEATHERMAP_API,
+            q: city,
+            units: "imperial"
+        }).done(function (data) {
+            console.log(data.coord.lat);
+            console.log(data.coord.lon);
+            marker.setLngLat([data.coord.lon, data.coord.lat])
                 .addTo(map);
-            map.jumpTo({center: coords, zoom: 15});
+            map.jumpTo({center: data.coord, zoom: 15});
             getWeather();
-        } else {
-            $.get(weatherUrl, {
-                APPID: WEATHERMAP_API,
-                q: city,
-                units: "imperial"
-            }).done(function (data) {
-                console.log(data.coord.lat);
-                console.log(data.coord.lon);
-                marker.setLngLat([data.coord.lon, data.coord.lat])
-                    .addTo(map);
-                map.jumpTo({center: data.coord, zoom: 15});
-                getWeather();
-            });
-        }
+        });
     }
 }
 
