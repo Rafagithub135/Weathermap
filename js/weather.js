@@ -3,8 +3,6 @@
 const weatherUrl = "http://api.openweathermap.org/data/2.5/weather";
 const oneCallUrl = "http://api.openweathermap.org/data/2.5/onecall";
 
-let currentConditions = $("#current");
-
 const daysOfTheWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
@@ -81,8 +79,8 @@ function appendLeadingZeroes(n) {
 
 mapboxgl.accessToken = MAPBOX_API;
 const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/outdoors-v11',
+    container: "map",
+    style: "mapbox://styles/mapbox/outdoors-v11",
     center: [-75.2000, 39.9385],
     zoom: 15
 });
@@ -112,7 +110,7 @@ function getWeather() {
         lon: marker.getLngLat().lng,
         units: "imperial",
     }).done(function (data) {
-
+        console.log(data);
         $("#tdate").html(`, ${formatTime(appendLeadingZeroes(data.current.dt))}`)
         $("#weather").html(data.current.weather[0].description);
         // $("#sunr").html(sr);
@@ -131,13 +129,14 @@ function getWeather() {
                 iconCode = day.weather[0].icon;
                 iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
                 $("#forecast").append(`
-	                    <div class='card forecast-card'>
-	                    <div class='d-flex row justify-content-center'>
-	                    <h5 class='d-flex justify-content-center'>${formatDay(appendLeadingZeroes(day.dt))}</h5>
-	                    <img src="${iconUrl}" style='width: 75px'>
-	                    <span class='d-flex justify-content-center'>${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
-	                    <span class='d-flex justify-content-center'>Humidity: ${day.humidity}%</span>
-	                    <span class='d-flex justify-content-center'>Wind: ${day.wind_speed.toFixed(1)}</span>
+	                    <div class="card forecast-card">
+	                    <div class="d-flex row justify-content-center">
+	                    <h5 class="d-flex justify-content-center"=>${formatDay(appendLeadingZeroes(day.dt))}</h5>
+	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt))}</h5>
+	                    <img src="${iconUrl}" style="width: 75px">
+	                    <span class="d-flex justify-content-center">${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
+	                    <span class="d-flex justify-content-center">Humidity: ${day.humidity}%</span>
+	                    <span class="d-flex justify-content-center">Wind: ${day.wind_speed.toFixed(1)} mph ${windDirection(data.current.wind_deg)}</span>
 	                    </div>
 	                    </div>`
                 );

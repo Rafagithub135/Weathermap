@@ -2,21 +2,10 @@ body {
     background: palegreen;
 }
 
-h1 {
-    justify-content: center;
-}
-
-p {
-    margin: 0;
-}
-
 .card {
     height: 300px;
     width: 18rem;
-}
-
-.container {
-    margin: auto;
+    border: 2px solid black;
 }
 
 #map {
