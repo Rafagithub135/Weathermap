@@ -46,11 +46,8 @@ function windDirection(degrees) {
 
 function formatTime(timeStamp) {
     let dateTime = new Date(timeStamp * 1000);
-    let year = dateTime.getFullYear();
-    let month = months[dateTime.getMonth()];
-    let day = dateTime.getDate();
     let hour = appendLeadingZeroes(dateTime.getHours());
-
+    let minutes = appendLeadingZeroes(dateTime.getMinutes());
     function fixHour() {
         if (hour > 12) {
             hour -= 12;
@@ -59,10 +56,16 @@ function formatTime(timeStamp) {
             minutes += " AM";
         }
     }
-
-    let minutes = appendLeadingZeroes(dateTime.getMinutes());
     fixHour();
-    return month + " " + day + " " + year + " " + hour + ":" + minutes;
+    return hour + ":" + minutes;
+}
+
+function formatDate(timeStamp) {
+    let dateTime = new Date(timeStamp * 1000);
+    let year = dateTime.getFullYear();
+    let month = months[dateTime.getMonth()];
+    let day = dateTime.getDate();
+        return month + " " + day + " " + year;
 }
 
 function formatDay(timeStamp) {
@@ -82,7 +85,7 @@ const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/outdoors-v11",
     center: [-75.1502062093917, 39.94995685],
-    zoom: 10
+    zoom: 15
 });
 
 let el = document.createElement("div");
@@ -110,7 +113,7 @@ function getWeather() {
         units: "imperial",
     }).done(function (data) {
         console.log(data);
-        $("#tdate").html(`, ${formatTime(appendLeadingZeroes(data.current.dt))}`)
+        $("#tdate").html(`, ${formatDate(appendLeadingZeroes(data.current.dt))} ${formatTime(appendLeadingZeroes(data.current.dt))}`);
         $("#weather").html(data.current.weather[0].description);
         $("#sunrise").html(`Sunrise: ${formatTime(data.current.sunrise)}`);
         let iconCode = data.current.weather[0].icon;
@@ -134,7 +137,7 @@ function getWeather() {
 	                    <div class="card forecast-card">
 	                    <div class="d-flex row justify-content-center">
 	                    <h5 class="d-flex justify-content-center"=>${formatDay(appendLeadingZeroes(day.dt))}</h5>
-	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt + 86400))}</h5>
+	                    <h5 class="d-flex justify-content-center">${formatDate(appendLeadingZeroes(day.dt + 86400))}</h5>
 	                    <img src="${iconUrl}" style="width: 75px">
 	                    <span class="d-flex justify-content-center">${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
 	                    <span class="d-flex justify-content-center">Humidity: ${day.humidity}%</span>
@@ -159,7 +162,8 @@ async function updateInformation() {
         coords[1] = parseFloat(coords[1]);
         $.get(weatherUrl, {
             APPID: WEATHERMAP_API,
-            q: city,
+            lat: coords[1],
+            lon: coords[0],
             units: "imperial"
         }).done(function (data) {
             console.log(data.coord.lat);
