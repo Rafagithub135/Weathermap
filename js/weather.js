@@ -89,8 +89,8 @@ const map = new mapboxgl.Map({
 });
 
 let el = document.createElement("div");
-el.className = "marker";
-let marker = new mapboxgl.Marker({
+el.className = "marker5";
+let marker = new mapboxgl.Marker(el,{
     draggable: true
 })
     .setLngLat([-75.1502062093917, 39.94995685])
