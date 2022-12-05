@@ -82,7 +82,7 @@ const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/outdoors-v11",
     center: [-75.2000, 39.9385],
-    zoom: 15
+    zoom: 10
 });
 
 let el = document.createElement("div");
@@ -113,7 +113,6 @@ function getWeather() {
         console.log(data);
         $("#tdate").html(`, ${formatTime(appendLeadingZeroes(data.current.dt))}`)
         $("#weather").html(data.current.weather[0].description);
-        // $("#sunr").html(sr);
         let iconCode = data.current.weather[0].icon;
         let iconUrl = `http://openweathermap.org/img/wn/${iconCode}@4x.png`;
 
@@ -125,7 +124,7 @@ function getWeather() {
         $("#forecast").html("");
 
         data.daily.forEach(function (day, index) {
-            if (index < 7) {
+            if (index > 0) {
                 iconCode = day.weather[0].icon;
                 iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
                 $("#forecast").append(`
