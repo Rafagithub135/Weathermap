@@ -118,7 +118,7 @@ function getWeather() {
 
         $("#weather-icon").attr('src', iconUrl);
         $("#temp").html(`${data.current.temp.toFixed(1)}°F`);
-        $("#high-low").html(`Day ${data.daily[0].temp.max.toFixed(1)}° • Night ${data.daily[0].temp.min.toFixed(1)}°`);
+        $("#high-low").html(`High ${data.daily[0].temp.max.toFixed(1)}° • Low ${data.daily[0].temp.min.toFixed(1)}°`);
         $("#humidity").html(`Humidity: ${data.current.humidity}%`);
         $("#wind").html(`Wind: ${data.current.wind_speed.toFixed(1)} mph ${windDirection(data.current.wind_deg)}`);
         $("#sunset").html(`Sunset: ${formatTime(data.current.sunset)}`);
