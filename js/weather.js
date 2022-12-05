@@ -113,6 +113,7 @@ function getWeather() {
         console.log(data);
         $("#tdate").html(`, ${formatTime(appendLeadingZeroes(data.current.dt))}`)
         $("#weather").html(data.current.weather[0].description);
+        $("#sunrise").html(`Sunrise: ${formatTime(data.current.sunrise)}`);
         let iconCode = data.current.weather[0].icon;
         let iconUrl = `http://openweathermap.org/img/wn/${iconCode}@4x.png`;
 
@@ -121,21 +122,26 @@ function getWeather() {
         $("#high-low").html(`Day ${data.daily[0].temp.max.toFixed(1)}° • Night ${data.daily[0].temp.min.toFixed(1)}°`);
         $("#humidity").html(`Humidity: ${data.current.humidity}%`);
         $("#wind").html(`Wind: ${data.current.wind_speed.toFixed(1)} mph ${windDirection(data.current.wind_deg)}`);
+        $("#sunset").html(`Sunset: ${formatTime(data.current.sunset)}`);
         $("#forecast").html("");
 
         data.daily.forEach(function (day, index) {
-            if (index > 0) {
+            if (index < 7) {
                 iconCode = day.weather[0].icon;
                 iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+                let sunrise = formatTime(day.sunrise + 86400);
+                let sunset = formatTime(day.sunset + 86400);
                 $("#forecast").append(`
 	                    <div class="card forecast-card">
 	                    <div class="d-flex row justify-content-center">
 	                    <h5 class="d-flex justify-content-center"=>${formatDay(appendLeadingZeroes(day.dt))}</h5>
-	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt))}</h5>
+	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt + 86400))}</h5>
 	                    <img src="${iconUrl}" style="width: 75px">
 	                    <span class="d-flex justify-content-center">${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
 	                    <span class="d-flex justify-content-center">Humidity: ${day.humidity}%</span>
 	                    <span class="d-flex justify-content-center">Wind: ${day.wind_speed.toFixed(1)} mph ${windDirection(data.current.wind_deg)}</span>
+	                    <span class="d-flex justify-content-center">Sunrise: ${sunrise}</span>
+	                    <span class="d-flex justify-content-center">Sunset: ${sunset}</span>
 	                    </div>
 	                    </div>`
                 );
