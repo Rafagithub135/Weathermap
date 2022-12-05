@@ -2,6 +2,10 @@ body {
     background: palegreen;
 }
 
+h3 {
+    font-size: 60px;
+}
+
 .card {
     height: 300px;
     width: 18rem;
