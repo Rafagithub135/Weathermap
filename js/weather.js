@@ -139,7 +139,7 @@ function getWeather() {
 	                    <img src="${iconUrl}" style="width: 75px">
 	                    <span class="d-flex justify-content-center">${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
 	                    <span class="d-flex justify-content-center">Humidity: ${day.humidity}%</span>
-	                    <span class="d-flex justify-content-center">Wind: ${day.wind_speed.toFixed(1)} mph ${windDirection(data.current.wind_deg)}</span>
+	                    <span class="d-flex justify-content-center">Wind: ${day.wind_speed.toFixed(1)} mph ${windDirection(day.wind_deg)}</span>
 	                    <span class="d-flex justify-content-center">Sunrise: ${sunrise}</span>
 	                    <span class="d-flex justify-content-center">Sunset: ${sunset}</span>
 	                    </div>
