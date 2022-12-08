@@ -129,13 +129,13 @@ function getWeather() {
             if (index < 7) {
                 iconCode = day.weather[0].icon;
                 iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-                let sunrise = formatTime(day.sunrise + 86400);
-                let sunset = formatTime(day.sunset + 86400);
+                let sunrise = formatTime(day.sunrise + 72000);
+                let sunset = formatTime(day.sunset + 72000);
                 $("#forecast").append(`
 	                    <div class="card forecast-card">
 	                    <div class="d-flex row justify-content-center">
 	                    <h5 class="d-flex justify-content-center"=>${formatDay(appendLeadingZeroes(day.dt))}</h5>
-	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt + 86400))}</h5>
+	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt + 72000))}</h5>
 	                    <img src="${iconUrl}" style="width: 75px">
 	                    <span class="d-flex justify-content-center">${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
 	                    <span class="d-flex justify-content-center">Humidity: ${day.humidity}%</span>
