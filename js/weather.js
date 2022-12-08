@@ -46,11 +46,8 @@ function windDirection(degrees) {
 
 function formatTime(timeStamp) {
     let dateTime = new Date(timeStamp * 1000);
-    let year = dateTime.getFullYear();
-    let month = months[dateTime.getMonth()];
-    let day = dateTime.getDate();
     let hour = appendLeadingZeroes(dateTime.getHours());
-
+    let minutes = appendLeadingZeroes(dateTime.getMinutes());
     function fixHour() {
         if (hour > 12) {
             hour -= 12;
@@ -59,10 +56,16 @@ function formatTime(timeStamp) {
             minutes += " AM";
         }
     }
-
-    let minutes = appendLeadingZeroes(dateTime.getMinutes());
     fixHour();
-    return month + " " + day + " " + year + " " + hour + ":" + minutes;
+    return hour + ":" + minutes;
+}
+
+function formatDate(timeStamp) {
+    let dateTime = new Date(timeStamp * 1000);
+    let year = dateTime.getFullYear();
+    let month = months[dateTime.getMonth()];
+    let day = dateTime.getDate();
+        return month + " " + day + " " + year;
 }
 
 function formatDay(timeStamp) {
@@ -81,17 +84,16 @@ mapboxgl.accessToken = MAPBOX_API;
 const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/outdoors-v11",
-    center: [-75.2000, 39.9385],
-    zoom: 10
+    center: [-75.1502062093917, 39.94995685],
+    zoom: 15
 });
 
 let el = document.createElement("div");
-el.className = "marker";
-let marker = new mapboxgl.Marker(el, {
-    anchor: "bottom",
+el.className = "marker5";
+let marker = new mapboxgl.Marker(el,{
+    draggable: true
 })
-    .setDraggable(true)
-    .setLngLat([-75.2000, 39.9385])
+    .setLngLat([-75.1502062093917, 39.94995685])
     .addTo(map);
 
 marker.on("dragend", function () {
@@ -111,7 +113,7 @@ function getWeather() {
         units: "imperial",
     }).done(function (data) {
         console.log(data);
-        $("#tdate").html(`, ${formatTime(appendLeadingZeroes(data.current.dt))}`)
+        $("#tdate").html(`, ${formatDate(appendLeadingZeroes(data.current.dt))} ${formatTime(appendLeadingZeroes(data.current.dt))}`);
         $("#weather").html(data.current.weather[0].description);
         $("#sunrise").html(`Sunrise: ${formatTime(data.current.sunrise)}`);
         let iconCode = data.current.weather[0].icon;
@@ -119,7 +121,7 @@ function getWeather() {
 
         $("#weather-icon").attr('src', iconUrl);
         $("#temp").html(`${data.current.temp.toFixed(1)}°F`);
-        $("#high-low").html(`Day ${data.daily[0].temp.max.toFixed(1)}° • Night ${data.daily[0].temp.min.toFixed(1)}°`);
+        $("#high-low").html(`High ${data.daily[0].temp.max.toFixed(1)}° • Low ${data.daily[0].temp.min.toFixed(1)}°`);
         $("#humidity").html(`Humidity: ${data.current.humidity}%`);
         $("#wind").html(`Wind: ${data.current.wind_speed.toFixed(1)} mph ${windDirection(data.current.wind_deg)}`);
         $("#sunset").html(`Sunset: ${formatTime(data.current.sunset)}`);
@@ -129,13 +131,14 @@ function getWeather() {
             if (index < 7) {
                 iconCode = day.weather[0].icon;
                 iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-                let sunrise = formatTime(day.sunrise + 72000);
-                let sunset = formatTime(day.sunset + 72000);
+                let sunrise = formatTime(day.sunrise + 86400);
+                let sunset = formatTime(day.sunset + 86400);
                 $("#forecast").append(`
 	                    <div class="card forecast-card">
 	                    <div class="d-flex row justify-content-center">
 	                    <h5 class="d-flex justify-content-center"=>${formatDay(appendLeadingZeroes(day.dt))}</h5>
 	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt + 72000))}</h5>
+	                    <h5 class="d-flex justify-content-center">${formatDate(appendLeadingZeroes(day.dt + 72000))}</h5>
 	                    <img src="${iconUrl}" style="width: 75px">
 	                    <span class="d-flex justify-content-center">${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
 	                    <span class="d-flex justify-content-center">Humidity: ${day.humidity}%</span>
@@ -150,33 +153,27 @@ function getWeather() {
     });
 }
 
-function updateInformation() {
+async function updateInformation() {
     if ($("#location").val().trim() === "") {
     } else {
         let city = $("#location").val();
-        let coords = $("#location").val().trim().split(",").reverse();
+        let coords = await geocode(city, MAPBOX_API);
+        console.log(coords);
         coords[0] = parseFloat(coords[0]);
         coords[1] = parseFloat(coords[1]);
-        if (!isNaN(parseFloat(city))) {
-            let coords = $("#location").val().trim().split(",").reverse();
-            marker.setLngLat([coords[0], coords[1]])
+        $.get(weatherUrl, {
+            APPID: WEATHERMAP_API,
+            lat: coords[1],
+            lon: coords[0],
+            units: "imperial"
+        }).done(function (data) {
+            console.log(data.coord.lat);
+            console.log(data.coord.lon);
+            marker.setLngLat([data.coord.lon, data.coord.lat])
                 .addTo(map);
-            map.jumpTo({center: coords, zoom: 15});
+            map.jumpTo({center: data.coord, zoom: 15});
             getWeather();
-        } else {
-            $.get(weatherUrl, {
-                APPID: WEATHERMAP_API,
-                q: city,
-                units: "imperial"
-            }).done(function (data) {
-                console.log(data.coord.lat);
-                console.log(data.coord.lon);
-                marker.setLngLat([data.coord.lon, data.coord.lat])
-                    .addTo(map);
-                map.jumpTo({center: data.coord, zoom: 15});
-                getWeather();
-            });
-        }
+        });
     }
 }
 
