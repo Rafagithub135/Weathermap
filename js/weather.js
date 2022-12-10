@@ -148,7 +148,8 @@ function getWeather() {
 	                    <div class="card forecast-card">
 	                    <div class="d-flex row justify-content-center">
 	                    <h5 class="d-flex justify-content-center"=>${formatDay(appendLeadingZeroes(day.dt))}</h5>
-	                    <h5 class="d-flex justify-content-center">${formatDate(appendLeadingZeroes(day.dt + 86400))}</h5>
+	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt + 72000))}</h5>
+	                    <h5 class="d-flex justify-content-center">${formatDate(appendLeadingZeroes(day.dt + 72000))}</h5>
 	                    <img src="${iconUrl}" style="width: 75px">
 	                    <span class="d-flex justify-content-center">${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
 	                    <span class="d-flex justify-content-center">Humidity: ${day.humidity}%</span>
