@@ -100,17 +100,9 @@ el.className = "marker5";
 let marker = new mapboxgl.Marker(el,{
     draggable: true
 })
-<<<<<<< HEAD
-    .setLngLat([-75.20181, 39.93856
-])
-=======
-    // Set starting position on the map
-<<<<<<< HEAD
     .setLngLat([-75.20181, 39.93856])
-=======
-    .setLngLat([-75.1502062093917, 39.94995685])
->>>>>>> 8fefc2f39e63f2ade610e58ead43738a275919be
->>>>>>> f70dd8dc9639f1de6f77b7ae237e079cb9e90aec
+    // Set starting position on the map
+    .setLngLat([-75.20181, 39.93856])
     .addTo(map);
 
 // Gets weather data for location of dropped marker
