@@ -6,6 +6,7 @@ const oneCallUrl = "http://api.openweathermap.org/data/2.5/onecall";
 const daysOfTheWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
+// Wind direction function
 function windDirection(degrees) {
     let cardinalDirection = '';
     if ((degrees > 348.75 && degrees <= 360) || (degrees >= 0 && degrees <= 11.25)) {
@@ -44,6 +45,7 @@ function windDirection(degrees) {
     return cardinalDirection;
 }
 
+// Function to format time
 function formatTime(timeStamp) {
     let dateTime = new Date(timeStamp * 1000);
     let hour = appendLeadingZeroes(dateTime.getHours());
@@ -60,6 +62,7 @@ function formatTime(timeStamp) {
     return hour + ":" + minutes;
 }
 
+// Function to format date
 function formatDate(timeStamp) {
     let dateTime = new Date(timeStamp * 1000);
     let year = dateTime.getFullYear();
@@ -68,11 +71,13 @@ function formatDate(timeStamp) {
         return month + " " + day + " " + year;
 }
 
+// Function to format day of the week
 function formatDay(timeStamp) {
     let dateTime = new Date(timeStamp * 1000);
     return daysOfTheWeek[dateTime.getDay()];
 }
 
+// Function to append leading zeroes
 function appendLeadingZeroes(n) {
     if (n <= 9) {
         return "0" + n;
@@ -80,6 +85,7 @@ function appendLeadingZeroes(n) {
     return n;
 }
 
+// Function to get mapbox map
 mapboxgl.accessToken = MAPBOX_API;
 const map = new mapboxgl.Map({
     container: "map",
@@ -88,23 +94,32 @@ const map = new mapboxgl.Map({
     zoom: 15
 });
 
+// Function to create marker
 let el = document.createElement("div");
 el.className = "marker5";
 let marker = new mapboxgl.Marker(el,{
     draggable: true
 })
+<<<<<<< HEAD
     .setLngLat([-75.20181, 39.9385])
+=======
+    // Set starting position on the map
+    .setLngLat([-75.1502062093917, 39.94995685])
+>>>>>>> 8fefc2f39e63f2ade610e58ead43738a275919be
     .addTo(map);
 
+// Gets weather data for location of dropped marker
 marker.on("dragend", function () {
     getWeather();
 });
 
+// Function to get marker's current lat and long
 map.on("click", function (e) {
     marker.setLngLat(e.lngLat);
     getWeather();
 });
 
+// Function to get weather data
 function getWeather() {
     $.get(oneCallUrl, {
         APPID: WEATHERMAP_API,
@@ -126,7 +141,7 @@ function getWeather() {
         $("#wind").html(`Wind: ${data.current.wind_speed.toFixed(1)} mph ${windDirection(data.current.wind_deg)}`);
         $("#sunset").html(`Sunset: ${formatTime(data.current.sunset)}`);
         $("#forecast").html("");
-
+        // Loop to get forecast data
         data.daily.forEach(function (day, index) {
             if (index < 7) {
                 iconCode = day.weather[0].icon;
@@ -137,7 +152,8 @@ function getWeather() {
 	                    <div class="card forecast-card">
 	                    <div class="d-flex row justify-content-center">
 	                    <h5 class="d-flex justify-content-center"=>${formatDay(appendLeadingZeroes(day.dt))}</h5>
-	                    <h5 class="d-flex justify-content-center">${formatDate(appendLeadingZeroes(day.dt + 86400))}</h5>
+	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt + 72000))}</h5>
+	                    <h5 class="d-flex justify-content-center">${formatDate(appendLeadingZeroes(day.dt + 72000))}</h5>
 	                    <img src="${iconUrl}" style="width: 75px">
 	                    <span class="d-flex justify-content-center">${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
 	                    <span class="d-flex justify-content-center">Humidity: ${day.humidity}%</span>
@@ -152,6 +168,7 @@ function getWeather() {
     });
 }
 
+// Function to update map for new location
 async function updateInformation() {
     if ($("#location").val().trim() === "") {
     } else {
@@ -176,14 +193,19 @@ async function updateInformation() {
     }
 }
 
+// Function to get weather once button is clicked
 $("#location-button").on("click", function () {
     updateInformation();
     $("#location").value = "";
 });
+
+// Function to get weather when enter is pressed
 $("#location").on("keyup", function (e) {
     if (e.key === "Enter" || e.key === 13) {
         updateInformation();
         $("#location").value = "";
     }
 });
+
+// Function to get weather when page loads
 getWeather();
