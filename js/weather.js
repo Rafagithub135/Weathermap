@@ -101,7 +101,7 @@ let marker = new mapboxgl.Marker(el,{
     draggable: true
 })
 <<<<<<< HEAD
-    .setLngLat([-75.20181, 39.93856])
+    .setLngLat([-75.20181, 39.9385])
 =======
     // Set starting position on the map
 <<<<<<< HEAD
