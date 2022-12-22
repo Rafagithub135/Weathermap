@@ -84,7 +84,7 @@ mapboxgl.accessToken = MAPBOX_API;
 const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/outdoors-v11",
-    center: [-75.1502062093917, 39.94995685],
+    center: [-75.20181, 39.93856],
     zoom: 15
 });
 
@@ -93,7 +93,7 @@ el.className = "marker5";
 let marker = new mapboxgl.Marker(el,{
     draggable: true
 })
-    .setLngLat([-75.1502062093917, 39.94995685])
+    .setLngLat([-75.20181, 39.93856])
     .addTo(map);
 
 marker.on("dragend", function () {
