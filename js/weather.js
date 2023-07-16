@@ -54,6 +54,8 @@ function formatTime(timeStamp) {
         if (hour > 12) {
             hour -= 12;
             minutes += " PM";
+        } else if (hour === 12) {
+            minutes += " PM";
         } else {
             minutes += " AM";
         }
