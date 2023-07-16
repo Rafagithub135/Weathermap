@@ -151,7 +151,8 @@ function getWeather() {
 	                    <div class="card forecast-card">
 	                    <div class="d-flex row justify-content-center">
 	                    <h5 class="d-flex justify-content-center"=>${formatDay(appendLeadingZeroes(day.dt))}</h5>
-	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt + 72000))}</h5>
+<!--	                    Line below shows the time of the forcasted weather.  It is not needed, so I commented it out.-->
+<!--	                    <h5 class="d-flex justify-content-center">${formatTime(appendLeadingZeroes(day.dt + 72000))}</h5>-->
 	                    <h5 class="d-flex justify-content-center">${formatDate(appendLeadingZeroes(day.dt + 72000))}</h5>
 	                    <img src="${iconUrl}" style="width: 75px">
 	                    <span class="d-flex justify-content-center">${day.temp.max.toFixed(1)}° / ${day.temp.min.toFixed(1)}°</span>
