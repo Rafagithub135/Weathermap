@@ -51,10 +51,8 @@ function formatTime(timeStamp) {
     let hour = appendLeadingZeroes(dateTime.getHours());
     let minutes = appendLeadingZeroes(dateTime.getMinutes());
     function fixHour() {
-        if (hour >= 13) {
+        if (hour > 12) {
             hour -= 12;
-            minutes += " PM";
-        } else if (hour == 12) {
             minutes += " PM";
         } else {
             minutes += " AM";
@@ -70,7 +68,7 @@ function formatDate(timeStamp) {
     let year = dateTime.getFullYear();
     let month = months[dateTime.getMonth()];
     let day = dateTime.getDate();
-    return month + " " + day + " " + year;
+        return month + " " + day + " " + year;
 }
 
 // Function to format day of the week
